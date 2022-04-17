@@ -20,28 +20,26 @@
                  <input type="submit" class="contrast" value="Feed me">
             </form>
 
-            <?php
+            <?php     
 
-                if (filter_var($_POST["url"],FILTER_VALIDATE_URL)) {
-                    $url = $_POST["url"];
-                    $xml = simpleXML_load_file($url,"SimpleXMLElement",LIBXML_NOCDATA);
-                    print_r($xml);
-                    if($xml ===  FALSE){
-                        libxml_use_internal_errors(false);
-                        libxml_clear_errors();
+                function _isValidXML($url) {
+                       libxml_use_internal_errors(true);
+                       try {
+                            $xml = new SimpleXMLElement($url,0,true);
+                            return  $xml;
 
-                        echo "URL is not a RSS feed";
-                    }
+                       } catch (\Throwable $th) {
+                           return "URL is not a RSS feed";
+                       }
 
-
-
-                }else{
-                    echo "";
                 }
+    
+            
+                isset($_POST["url"]) &&  $_POST["url"] !== ""
+                ?  var_dump( _isValidXML($_POST["url"]))
+                : print "Feed me with RSS please";
 
              
-             
-
             ?>
                          
         </main>
