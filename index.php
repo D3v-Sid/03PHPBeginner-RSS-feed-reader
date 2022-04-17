@@ -22,25 +22,42 @@
 
             <?php     
 
-                function _isValidXML($url) {
+                function _isValidXML(string $url) {
                        libxml_use_internal_errors(true);
                        try {
                             $xml = new SimpleXMLElement($url,0,true);
-                            return  $xml;
+                            return  true;
 
                        } catch (\Throwable $th) {
-                           return "URL is not a RSS feed";
+                           return false;
                        }
 
                 }
-    
-            
-                isset($_POST["url"]) &&  $_POST["url"] !== ""
-                ?  var_dump( _isValidXML($_POST["url"]))
-                : print "Feed me with RSS please";
+                
+                function _displayXML(string $url)
+                {
+                    $content = simplexml_load_file($url,"SimpleXMLElement",LIBXML_NOCDATA);
+              /*       var_dump($content); */   
+                   foreach ($content->channel->item as $item) {
+                        echo "
+                            <article>
+                                <h3> $item->title </h3>
+                                <p> $item->description </p>
+                                <a href=$item->link> $item->link </a>
+                            </article> ";
+                    } 
+                }
 
-             
+
+                isset($_POST["url"]) 
+                &&  $_POST["url"] !== "" 
+                && _isValidXML($_POST["url"]) ?   
+                 _displayXML($_POST["url"])
+                : print "Feed me with RSS please"
             ?>
+
+
+
                          
         </main>
 
