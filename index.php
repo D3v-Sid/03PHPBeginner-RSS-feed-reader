@@ -47,7 +47,7 @@
                 {
                     $content = simplexml_load_file($url,"SimpleXMLElement",LIBXML_NOCDATA);
                     foreach ($content->channel->item as $item) {
-                        $description = mb_strimwidth($item->description,0,150,"...");
+                        $description = mb_strimwidth($item->description,0,150,"");
                         $image = $content->channel->image->url;
                         $time = strtotime( $item->pubDate);
                         $date = date('d/m/Y',$time);
