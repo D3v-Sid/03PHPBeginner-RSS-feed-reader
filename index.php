@@ -31,29 +31,28 @@
         }
 
 
-                function _isValidXML(string $url) {
-                       libxml_use_internal_errors(true);
-                       try {
-                            $xml = new SimpleXMLElement($url,0,true);
-                            return  true;
-
-                       } catch (\Throwable $th) {
+        function _isValidXML(string $url) {
+            libxml_use_internal_errors(true);
+                try {
+                        $xml = new SimpleXMLElement($url,0,true);
+                        return  true;
+                       } 
+                catch (\Throwable $th) {
                            return false;
                        }
 
                 }
                 
-                function _displayXML(string $url)
-                {
-                    $content = simplexml_load_file($url,"SimpleXMLElement",LIBXML_NOCDATA);
-                    foreach ($content->channel->item as $item) {
-                        $description = mb_strimwidth($item->description,0,150,"");
-                        $image = $content->channel->image->url;
-                        $time = strtotime( $item->pubDate);
-                        $date = date('d/m/Y',$time);
+        function _displayXML(string $url){
+            $content = simplexml_load_file($url,"SimpleXMLElement",LIBXML_NOCDATA);
+            foreach ($content->channel->item as $item) {
+                $description = mb_strimwidth($item->description,0,150,"");
+                $image = $content->channel->image->url;
+                $time = strtotime( $item->pubDate);
+                $date = date('d/m/Y',$time);
 
-                        echo "
-                            <article>
+                echo "
+                        <article>
                                 <a href=$item->link>
                                     <header>
                                         <hgroup>
@@ -72,11 +71,11 @@
                 }
 
 
-                isset($_POST["url"]) 
-                &&  $_POST["url"] !== "" 
-                && _isValidXML($_POST["url"]) ?   
-                 _displayXML($_POST["url"])
-                : print "Feed me with RSS please"
+            isset($_POST["url"]) 
+            &&  $_POST["url"] !== "" 
+            && _isValidXML($_POST["url"]) ?   
+            _displayXML($_POST["url"])
+            : print "Feed me with RSS please"
             ?>
 
 
@@ -102,6 +101,11 @@
 h1,
 p {
     color: white;
+}
+
+[data-theme="light"],
+p:not([data-theme="dark"]) {
+    color: black;
 }
 
 a {
