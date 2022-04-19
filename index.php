@@ -98,8 +98,7 @@
     padding: 1.5rem;
 }
 
-h1,
-p {
+h1 {
     color: white;
 }
 
@@ -107,6 +106,12 @@ p {
 p:not([data-theme="dark"]) {
     color: black;
 }
+
+[data-theme="dark"],
+p:not([data-theme="light"]) {
+    color: white;
+}
+
 
 a {
     text-decoration: none;
