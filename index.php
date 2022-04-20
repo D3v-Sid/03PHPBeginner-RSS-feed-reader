@@ -56,13 +56,13 @@
                                 <a href=$item->link>
                                     <header>
                                         <hgroup>
-                                            <h2>$item->title </h2>
-                                            <h3>$date</h3>
+                                            <h3>$item->title </h3>
+                                            <h5>$date</h5>
                                         </hgroup>
                                     </header>
                                     <div class='grid'>
-                                        <img src = '$image' height=300 width=200>
-                                        <p>  $description </p>   
+                                        <img src = '$image' height=3s00 width=200>
+                                        <p> $description </p>   
                                      </div>
                                 </a>
                             
@@ -105,11 +105,13 @@ h1 {
 [data-theme="light"],
 p:not([data-theme="dark"]) {
     color: black;
+
 }
 
 [data-theme="dark"],
 p:not([data-theme="light"]) {
     color: white;
+    background-color: red;
 }
 
 
