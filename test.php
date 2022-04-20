@@ -19,7 +19,12 @@
             <input type="submit" class="contrast" value="Feed">
         </form>
         <article>
-            <?php isset($_POST["url"]) && print(ParseURL($_POST["url"]))?>
+            <?php if(ParseURL($_POST["url"])): ?>
+            <div>Test Div </div>
+            <?php else: ?>
+            <?php endif ?>
+
+
 
         </article>
     </main>
@@ -33,25 +38,31 @@
 function ParseURL(string $url )
 /** 
  * This function will parse the url passed by user into an XML object.
- * @param  url(string) : the url passed into the form, pointing to a RSS feed.
- * @return  simpleXML object OR false if the URL is not pointing at a RSS feed.
+ * param url(string) : the url passed into the form, pointing to a RSS feed.
+ * return simpleXML object OR false if the URL is not pointing at a RSS feed.
 */
 {
+    /* Turn off errors if url is not RSS feed */
     libxml_use_internal_errors(true);
     
     try{
         /* parameters : data, options, dataIsURL,namespace, isPrefix */
         $xml = new SimpleXMLElement($url,0,true);
-        $xmlToString = $xml;
-        return $xmlToString;
     }
-    
-    catch(exception $e) { 
+    catch(exception $e) {
         return false;
     }
-    
-}
+    finally{
+        $xmlContent = simplexml_load_file($url,"SimpleXMLElement",LIBXML_NOCDATA);
+        $title = $xmlContent->channel->title;
+        $description = mb_strimwidth($xmlContent->channel->item->description,0,150,"");
+        $image = $xmlContent->channel->image->url;
+        $date = date('d/m/Y',strtotime( $xmlContent->channel->item->pubDate));
+        $content = array($title, $description,$image,$date);
 
+        return $content ;
+    }
+}
 ?>
 
 <style>
