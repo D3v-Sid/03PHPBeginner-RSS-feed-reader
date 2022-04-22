@@ -10,18 +10,56 @@
 </head>
 
 <body>
-    <header class="hero">
-        <h1>RSS Reader</h1>
-    </header>
+    <div class="hero">
+        <h1>RSS Feeder</h1>
+    </div>
+
     <main class="container">
         <form method="post" action="<?php echo $_SERVER['PHP_SELF'];?>">
             <input type="url" name="url" placeholder="Your favorite RSS url" autofocus>
             <input type="submit" class="contrast" value="Feed">
         </form>
         <article>
-            <?php if(ParseURL($_POST["url"])): ?>
-            <div>Test Div </div>
+            <?php
+            if (isset($_POST["url"])): ?>
+            <div>
+                <?php 
+                    $rssContent = ParseURL($_POST["url"]);
+                    if ($rssContent):
+                        foreach ($rssContent->channel->item as $item) {
+                        $title = $item->title;
+                        $description = mb_strimwidth($item->description,0,200,"...");
+                        $fullDescription = $item->description;
+                        $url = $rssContent->channel->link;
+                        $image = empty($rssContent->channel->image->url)?  "https://source.unsplash.com/7XRs2HIWLWI/150x100":$rssContent->channel->image->url ;
+                        $time = strtotime( $item->pubDate);
+                        $date = date('d/m/Y',$time);
+                        echo "
+                            <article>
+                                <hgroup>
+                                    <h3> $title </h3>
+                                    <span> $date </span>
+                                </hgroup>
+                                <div class='grid'>
+                                    <img src='$image' width=150 height=100> 
+                                    $fullDescription
+                                    <a href='$url'> More </a>
+                                </div>
+                            </article>
+                        ";
+                    }
+                    else:
+                        echo"Unable to parse RSS from the given URL.Are you sure It's a RSS Feed?";
+                    endif
+                ?>
+
+            </div>
             <?php else: ?>
+            <p>Looking for RSS Feed :
+                <a href="https://www.rsssearchhub.com/" target="_blank"> Instant RSS Search
+                </a>
+            </p>
+
             <?php endif ?>
 
 
@@ -54,13 +92,9 @@ function ParseURL(string $url )
     }
     finally{
         $xmlContent = simplexml_load_file($url,"SimpleXMLElement",LIBXML_NOCDATA);
-        $title = $xmlContent->channel->title;
-        $description = mb_strimwidth($xmlContent->channel->item->description,0,150,"");
-        $image = $xmlContent->channel->image->url;
-        $date = date('d/m/Y',strtotime( $xmlContent->channel->item->pubDate));
-        $content = array($title, $description,$image,$date);
-
-        return $content ;
+        
+        return $xmlContent ;
+       
     }
 }
 ?>

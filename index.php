@@ -102,20 +102,15 @@ h1 {
     color: white;
 }
 
-[data-theme="light"],
-p:not([data-theme="dark"]) {
-    color: black;
-
-}
-
-[data-theme="dark"],
-p:not([data-theme="light"]) {
-    color: white;
-    background-color: red;
-}
-
-
-a {
+a,
+a:hover,
+a:focus,
+a:active {
     text-decoration: none;
+    color: inherit !important;
+}
+
+a:first-child {
+    color: red !important;
 }
 </style>
