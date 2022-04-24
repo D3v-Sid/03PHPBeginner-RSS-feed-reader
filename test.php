@@ -20,21 +20,28 @@
             <input type="submit" class="contrast" value="Feed">
         </form>
         <?php 
+            require_once("./Articles.php");
             function isXML(string $url){
             /* Explicitly return if url is valid XML */
                 libxml_use_internal_errors(true);
                 $Isxml = simplexml_load_file($url,"SimpleXMLElement",LIBXML_NOCDATA);
                 return $Isxml;
             }
+            
             if (isset($_POST["url"])){
                 $url = $_POST["url"];
                 $xml = isXML($url);
             }
+            
         ?>
         <?php if($xml): ?>
-        <article>
-            <p>Todo : Display content</p>
-        </article>
+        <?php foreach ($xml->channel->item as $item){
+            $article = new Articles($item);
+            $article->display();
+        } ?>
+
+
+
         <?php else : ?>
         <article>
             <p>This URL is not a valid RSS feed.😥 </p>
