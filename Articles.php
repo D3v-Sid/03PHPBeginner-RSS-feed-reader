@@ -8,13 +8,13 @@ class Articles{
     public $imageURL;
     public $link;
 
-    public function __construct(object $xmlObject){
-        $this->title =  $xmlObject->title;
-        $this->fullDescription = $xmlObject->description ;
+    public function __construct(object $item, $imageURL){
+        $this->title =  $item->title;
+        $this->fullDescription = $item->description ;
         $this->short_description = substr($this->fullDescription,0, strpos( $this->fullDescription, "</p>"));
-        $this->date = date('d/m/Y',strtotime( $$xmlObject->pubDate));
-        $this->imageURL = $xmlObject->channel->image->url;
-        $this->link = $xmlObject->link;
+        $this->date = date('d/m/Y',strtotime( $item->pubDate));
+        $this->imageURL = $imageURL;
+        $this->link = $item->link;
     }
     
     public function display(){
@@ -25,8 +25,11 @@ class Articles{
                 <h5> $this->date </h5>
             </hgroup>
             <div class='grid>
-                <img src='$this->imageURL' height=150 width =100>
-                <p>$this->short_description</p>
+                <img src = '$this->imageURL' height=300 width=200>
+                <div>
+                    <p>$this->short_description</p>
+                    <a href=$this->link> Read More </a> 
+                </div>
             </div>
         </article>
         " );

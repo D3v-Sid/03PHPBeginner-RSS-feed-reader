@@ -34,10 +34,11 @@
             }
             
         ?>
-        <?php if($xml): ?>
-        <?php foreach ($xml->channel->item as $item){
-            $article = new Articles($item);
-            $article->display();
+        <?php if($xml):
+             $imageUrl = $xml->channel->image->url; 
+            foreach ($xml->channel->item as $item){
+                $article = new Articles($item,$imageUrl);
+                $article->display();
         } ?>
 
 
