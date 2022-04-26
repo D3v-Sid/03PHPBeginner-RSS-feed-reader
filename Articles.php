@@ -8,15 +8,27 @@ class Articles{
     public string $imageURL;
     public string $link;
 
+    
+    private function buildShortDesc(string $fullDescription){
+        $possibleEndTag = ["</p>", "</ol>", "</ul>"];
+        foreach($possibleEndTag as $tag){
+            $tagPosition = stripos($fullDescription,$tag);
+            if(!$tagPosition){
+                 $tagPosition= 150;
+            }
+        }
+        $shortDesc = substr($fullDescription, 0,  strpos($fullDescription, $tagPosition) ) ;
+        return $shortDesc; 
+    }
+    
     public function __construct(object $item, $imageURL){
         $this->title =  $item->title;
         $this->fullDescription = $item->description ;
-        $this->short_description = substr($this->fullDescription,0, strpos( $this->fullDescription, "</p>"));
+        $this->short_description = $this->buildShortDesc($this->fullDescription) ;
         $this->date = date('d/m/Y',strtotime( $item->pubDate));
-        $this->imageURL = "$imageURL";
+        $this->imageURL =  empty( $imageURL) ? "https://source.unsplash.com/7XRs2HIWLWI/300x200" : $imageURL ; 
         $this->link = $item->link;
     }
-    
     public function display(){
         print("
         <article>
@@ -34,7 +46,6 @@ class Articles{
         </article>
         " );
     }
-
 
 }
 

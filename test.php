@@ -46,9 +46,16 @@
         <?php else : ?>
         <article>
             <p>This URL is not a valid RSS feed.😥 </p>
-            <a href="https://rss.com/blog/how-do-rss-feeds-work/" target="_blank" rel="noopener noreferrer">
-                What's a RSS Feed ?
+            <a href="https://rss.com/blog/popular-rss-feeds/" target="_blank" rel="noopener noreferrer">
+                Link to popular RSS Feed.
             </a>
+            <br> <br>
+            <i>
+                <a href="https://rss.com/blog/how-do-rss-feeds-work/" target="_blank" rel="noopener noreferrer">
+                    What's a RSS Feed ?
+                </a> </i>
+
+
 
         </article>
         <?php endif ?>
