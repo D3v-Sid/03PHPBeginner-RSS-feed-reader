@@ -13,11 +13,13 @@ class Articles{
         $possibleEndTag = ["</p>", "</ol>", "</ul>"];
         foreach($possibleEndTag as $tag){
             $tagPosition = stripos($fullDescription,$tag);
-            if(!$tagPosition){
-                 $tagPosition= 150;
+            if(!$tagPosition != "False"){
+                break;
+            }else{
+                $tagPosition= 150;
             }
         }
-        $shortDesc = substr($fullDescription, 0,  strpos($fullDescription, $tagPosition) ) ;
+        $shortDesc = substr($fullDescription, 0, $tagPosition ) ;
         return $shortDesc; 
     }
     
