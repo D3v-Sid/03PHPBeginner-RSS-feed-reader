@@ -1,6 +1,6 @@
 <?php
 
-class Articles{
+class Article{
     public string $title;
     public string $fullDescription;
     public string $short_description;
@@ -42,12 +42,13 @@ class Articles{
                 <img src='$this->imageURL' height='300' width='200'>
                 <div>
                     <p>$this->short_description</p>
-                    <a href=$this->link> Read More </a> 
+                    <a href=$this->link> Read More </a>    
                 </div>
             </div>
         </article>
         " );
     }
+
 
 }
 

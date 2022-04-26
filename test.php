@@ -20,7 +20,6 @@
             <input type="submit" class="contrast" value="Feed">
         </form>
         <?php 
-            require_once("./Articles.php");
             function isXML(string $url){
             /* Explicitly return if url is valid XML */
                 libxml_use_internal_errors(true);
@@ -35,14 +34,13 @@
             
         ?>
         <?php if($xml):
-             $imageUrl = $xml->channel->image->url; 
-            foreach ($xml->channel->item as $item){
-                $article = new Articles($item,$imageUrl);
-                $article->display();
-        } ?>
-
-
-
+                $imageUrl = $xml->channel->image->url;
+                require_once("./Article.php");          
+                foreach ($xml->channel->item as $item){
+                    $article = new Article($item,$imageUrl);
+                    $article->display();
+                }
+             ?>
         <?php else : ?>
         <article>
             <p>This URL is not a valid RSS feed.😥 </p>
@@ -70,7 +68,7 @@
 /* Header */
 .hero {
     background-color: #394046;
-    background-image: url("https://source.unsplash.com/7XRs2HIWLWI/3000x1000");
+    background-image: url("https://source.unsplash.com/7XRs2HIWLWI/1000x250");
     background-position: center;
     background-size: cover;
     padding: 1.5rem;
@@ -78,5 +76,9 @@
 
 h1 {
     color: white;
+}
+
+ol {
+    list-style: none;
 }
 </style>
