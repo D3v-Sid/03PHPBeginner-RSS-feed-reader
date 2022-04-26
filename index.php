@@ -40,7 +40,7 @@
                     $article->display();
                 }
              ?>
-        <?php else : ?>
+        <?php elseif(isset($_POST["url"])) : ?>
         <article>
             <p>This URL is not a valid RSS feed.😥 </p>
             <a href="https://rss.com/blog/popular-rss-feeds/" target="_blank" rel="noopener noreferrer">
@@ -51,10 +51,9 @@
                 <a href="https://rss.com/blog/how-do-rss-feeds-work/" target="_blank" rel="noopener noreferrer">
                     What's a RSS Feed ?
                 </a> </i>
-
-
-
         </article>
+        <?php  else : ?>
+
         <?php endif ?>
 
 
